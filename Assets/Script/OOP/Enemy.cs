@@ -1,15 +1,6 @@
 using UnityEngine;
 using System;
 
-// Pastikan enum ini ada (bisa ditaruh di luar class atau di script terpisah)
-public enum StateZombie
-{
-    IDLE,
-    PATROL,
-    CHASE,
-    ATTACK
-}
-
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private int xhp = 100;

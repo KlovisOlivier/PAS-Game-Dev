@@ -96,12 +96,23 @@ public class InventoryManager : MonoBehaviour, GrabableItem
             return;
         }
 
+        // LANGKAH 1: Cek apakah ada slot dengan item yang sama dan masih bisa ditumpuk (Stacking)
+        for (int i = 0; i < itemSlot.Length; i++)
+        {
+            if (itemSlot[i].CanStackWith(item.ItemName))
+            {
+                itemSlot[i].AddItem(item);
+                return; // Berhenti mencari setelah berhasil ditumpuk
+            }
+        }
+
+        // LANGKAH 2: Jika tidak ada item yang sama (atau slotnya sudah penuh/mencapai maxStackSize), cari slot kosong
         for (int i = 0; i < itemSlot.Length; i++)
         {
             if (!itemSlot[i].isFull)
             {
                 itemSlot[i].AddItem(item);
-                return;
+                return; // Berhenti mencari setelah masuk ke slot kosong
             }
         }
 

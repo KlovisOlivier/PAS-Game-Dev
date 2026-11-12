@@ -1,10 +1,11 @@
 using UnityEngine;
 
+// Memungkinkan Anda membuat item langsung dari klik kanan di folder Project
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Item")]
 public class ItemData : ScriptableObject
 {
     public string itemName;
-    public Sprite itemIcon;
-    [TextArea(3, 10)]
+    [TextArea]
     public string itemDescription;
+    public Sprite itemIcon;
 }
