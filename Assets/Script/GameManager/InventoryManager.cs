@@ -12,39 +12,52 @@ public class InventoryManager : MonoBehaviour, GrabableItem
     private ItemSlot selectedSlot;
     public ItemSlot[] itemSlot;
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         CreateSlots();
         InventoryCanvas.SetActive(false);
         inventoryAction = InputSystem.actions.FindAction("Inventory");
         InventoryActive = false;
+
     }
 
+    // Update is called once per frame
     void Update()
     {
-        if (inventoryAction == null || InventoryCanvas == null) return;
-
-        if (inventoryAction.triggered)
+        if (inventoryAction.triggered && InventoryCanvas != null && InventoryActive == false)
         {
-            InventoryActive = !InventoryActive;
-            Time.timeScale = InventoryActive ? 0f : 1f;
-            InventoryCanvas.SetActive(InventoryActive);
+            InventoryActive = true;
+            Time.timeScale = 0f;
+            Debug.Log("Inventory is active");
+            InventoryCanvas.SetActive(true);
+        } else if (inventoryAction.triggered && InventoryCanvas != null && InventoryActive == true)
+        {
+            InventoryActive = false;
+            Time.timeScale = 1f;
+            Debug.Log("Inventory is deactivated");
+            InventoryCanvas.SetActive(false);
         }
     }
 
+    // Build the slot objects at runtime so no manual wiring is needed in the scene
     private void CreateSlots()
     {
         ItemSlot slotPrefab = Resources.Load<ItemSlot>("ItemSlot");
         if (slotPrefab == null)
         {
-            Debug.LogError("ItemSlot prefab tidak ditemukan di folder Resources.", this);
+            Debug.LogError("ItemSlot prefab was not found in a Resources folder.", this);
             itemSlot = new ItemSlot[0];
             return;
         }
 
+        // Put the slots inside the GridLayoutGroup container (InventorySlots), if there is one
         Transform parent = InventoryCanvas.transform;
         GridLayoutGroup grid = InventoryCanvas.GetComponentInChildren<GridLayoutGroup>(true);
-        if (grid != null) parent = grid.transform;
+        if (grid != null)
+        {
+            parent = grid.transform;
+        }
 
         itemSlot = new ItemSlot[slotCount];
         for (int i = 0; i < itemSlot.Length; i++)
@@ -54,33 +67,35 @@ public class InventoryManager : MonoBehaviour, GrabableItem
         }
     }
 
+    // Called by a slot when the player clicks on it
     public void SelectSlot(ItemSlot slot)
     {
+        // Only one slot can be selected at a time
         if (selectedSlot != null)
+        {
             selectedSlot.SetSelected(false);
+        }
 
         selectedSlot = slot;
         slot.SetSelected(true);
 
+        // Show the item on the details panel (right side)
         if (detailsPanel != null)
+        {
             detailsPanel.Show(slot.ItemDetails);
+        }
     }
 
     public void AddItem(ItemDetails item)
     {
-        if (itemSlot == null || itemSlot.Length == 0) return;
+        Debug.Log("Item added to inventory: " + item.ItemName + " Quantity: " + item.Quantity);
 
-        // Coba stack dulu
-        for (int i = 0; i < itemSlot.Length; i++)
+        if (itemSlot == null || itemSlot.Length == 0)
         {
-            if (itemSlot[i].CanStackWith(item.ItemName))
-            {
-                itemSlot[i].AddItem(item);
-                return;
-            }
+            Debug.LogWarning("Inventory has no slots, '" + item.ItemName + "' was lost.");
+            return;
         }
 
-        // Slot kosong
         for (int i = 0; i < itemSlot.Length; i++)
         {
             if (!itemSlot[i].isFull)
@@ -90,6 +105,6 @@ public class InventoryManager : MonoBehaviour, GrabableItem
             }
         }
 
-        Debug.LogWarning("Inventory penuh, item '" + item.ItemName + "' hilang.");
+        Debug.LogWarning("Inventory is full, '" + item.ItemName + "' was lost.");
     }
 }

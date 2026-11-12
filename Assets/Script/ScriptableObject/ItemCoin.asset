@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Koin
   quantity: 1
-  itemIcon: {fileID: 0}
-  description: 
+  itemIcon: {fileID: -4084892821074295801, guid: fba4fae8ab886354db4f42c7d950b5fc, type: 3}
+  description: 'Koin Emas Yang Bisa Dikumpulkan
+
+'

@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public float kecepatan = 5f;
     private Vector2 arahGerak;
     private Rigidbody2D rb;
+
     InputAction moveAction;
 
     void Start()
@@ -33,16 +34,20 @@ public class PlayerMovement : MonoBehaviour
     void RotateToDirection()
     {
         if (arahGerak.sqrMagnitude > 0.01f)
+        {
             transform.right = arahGerak;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Coin"))
+    if (other.CompareTag("Coin"))
         {
             GameManager gameManager = FindAnyObjectByType<GameManager>();
             if (gameManager != null)
+            {
                 gameManager.AmbilKoin();
+            }
             Destroy(other.gameObject);
         }
     }
