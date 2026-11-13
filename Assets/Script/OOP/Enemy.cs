@@ -3,7 +3,6 @@ using System;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private int xhp = 100;
     public float ms = 2f;
 
     protected Transform player;
@@ -11,7 +10,6 @@ public class Enemy : MonoBehaviour
     [Header("State Machine")]
     [SerializeField] private float JarakDeteksi = 6f;
     [SerializeField] private float JarakSerang = 1.5f;
-    [SerializeField] private float JedaSerang = 1f;
 
     // State Now
     private StateZombie state = StateZombie.IDLE;
@@ -104,17 +102,22 @@ public class Enemy : MonoBehaviour
     }
 
     // Fungsi untuk mendeteksi tabrakan dengan Player
+    // Fungsi untuk mendeteksi tabrakan dengan Player
+    // Fungsi untuk mendeteksi tabrakan dengan Player
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Berhasil hit Player!");
 
-            // Jika script PlayerController kamu memiliki fungsi TakeDamage, panggil di sini:
-            // collision.gameObject.GetComponent<PlayerController>().TakeDamage(10);
+            PlayerHealth playerHp = collision.gameObject.GetComponent<PlayerHealth>();
+            
+            if (playerHp != null)
+            {
+                playerHp.TakeDamage(10f);
+            }
 
-            // Hancurkan musuh setelah berhasil menyerang
             Destroy(gameObject);
         }
-    }
-}
+    } // <- Ini kurung kurawal penutup untuk fungsi OnCollisionEnter2D
+} // <- INI YANG HILANG. Ini kurung kurawal penutup untuk "public
