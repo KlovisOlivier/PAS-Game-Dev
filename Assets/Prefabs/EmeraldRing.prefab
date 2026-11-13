@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5751391349169406752}
   - component: {fileID: 8356399505125569836}
   m_Layer: 0
-  m_Name: Coin
+  m_Name: EmeraldRing
   m_TagString: Coin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -4084892821074295801, guid: fba4fae8ab886354db4f42c7d950b5fc, type: 3}
+  m_Sprite: {fileID: 7558109107199243783, guid: a14d69177cfb77b41aa91b6771f03363, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

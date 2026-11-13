@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI; // Wajib dipanggil untuk mengakses komponen UI
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -8,32 +8,22 @@ public class PlayerHealth : MonoBehaviour
     public float currentHealth;
 
     [Header("UI References")]
-    public Image healthBarFill; // Tempat kita memasukkan HealthBarFill
+    public Image healthBarImage; // Slot untuk komponen Image darahmu
+    
+    // Array untuk menyimpan potongan gambar darah
+    // PENTING: Urutkan dari Index 0 (Darah Kosong) sampai Index terakhir (Darah Penuh)
+    public Sprite[] healthSprites; 
 
     void Start()
     {
-        // Set darah penuh saat game dimulai
         currentHealth = maxHealth;
         UpdateHealthBar();
     }
 
-    void Update()
-    {
-        // TESTING: Tekan tombol Spasi untuk mengurangi darah
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(10f); // Kurangi 10 darah tiap pencet spasi
-        }
-    }
-
-    // Fungsi untuk menerima damage
     public void TakeDamage(float damageAmount)
     {
         currentHealth -= damageAmount;
-
-        // Mencegah darah menjadi minus
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-
         UpdateHealthBar();
 
         if (currentHealth <= 0)
@@ -42,7 +32,6 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // Fungsi untuk menambah darah (Heal)
     public void Heal(float healAmount)
     {
         currentHealth += healAmount;
@@ -50,21 +39,25 @@ public class PlayerHealth : MonoBehaviour
         UpdateHealthBar();
     }
 
-    // Fungsi untuk mengupdate visual UI bar
     void UpdateHealthBar()
     {
-        if (healthBarFill != null)
+        // Pastikan array gambar sudah diisi di Inspector
+        if (healthSprites.Length > 0 && healthBarImage != null)
         {
-            // fillAmount menerima nilai dari 0.0 sampai 1.0
-            // Jadi kita bagi currentHealth dengan maxHealth
-            healthBarFill.fillAmount = currentHealth / maxHealth;
+            // Hitung persentase sisa darah (dari 0.0 sampai 1.0)
+            float healthPercentage = currentHealth / maxHealth;
+
+            // Tentukan index gambar mana yang cocok dengan sisa darah
+            int spriteIndex = Mathf.RoundToInt(healthPercentage * (healthSprites.Length - 1));
+
+            // Ganti gambar UI dengan gambar dari array
+            healthBarImage.sprite = healthSprites[spriteIndex];
         }
     }
 
     void Die()
     {
         Debug.Log("Player Mati!");
-        // Tambahkan efek mati di sini (misal animasi mati, game over panel, dll)
-        // Destroy(gameObject); 
+        // Tambahkan efek mati di sini
     }
 }

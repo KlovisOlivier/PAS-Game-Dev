@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a754c2990b609af4991bbb2f80411304, type: 3}
-  m_Name: ItemCoin
+  m_Name: ItemRubyRing
   m_EditorClassIdentifier: 
-  itemName: Koin
+  itemName: Ruby Ring
   quantity: 1
-  itemIcon: {fileID: -4084892821074295801, guid: fba4fae8ab886354db4f42c7d950b5fc, type: 3}
-  description: 'Koin Emas Yang Bisa Dikumpulkan
-
-'
+  itemIcon: {fileID: 4251696462408662437, guid: 7c3ef85ce9c526f47bd8c52ce1f65b93, type: 3}
+  description: Cincin Yang Mengandung Sihir Api
