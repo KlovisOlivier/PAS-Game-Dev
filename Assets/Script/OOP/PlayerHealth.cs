@@ -32,32 +32,30 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    public void Heal(float healAmount)
-    {
-        currentHealth += healAmount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        UpdateHealthBar();
-    }
-
     void UpdateHealthBar()
     {
-        // Pastikan array gambar sudah diisi di Inspector
         if (healthSprites.Length > 0 && healthBarImage != null)
         {
-            // Hitung persentase sisa darah (dari 0.0 sampai 1.0)
             float healthPercentage = currentHealth / maxHealth;
 
-            // Tentukan index gambar mana yang cocok dengan sisa darah
             int spriteIndex = Mathf.RoundToInt(healthPercentage * (healthSprites.Length - 1));
 
-            // Ganti gambar UI dengan gambar dari array
             healthBarImage.sprite = healthSprites[spriteIndex];
         }
     }
 
     void Die()
+{
+    Debug.Log("Player Mati!");
+
+    GameManager gm = FindAnyObjectByType<GameManager>();
+    if (gm != null)
     {
-        Debug.Log("Player Mati!");
-        // Tambahkan efek mati di sini
+        gm.Kalah();
     }
+    else
+    {
+        Time.timeScale = 0f; // tetap freeze walau GameManager tidak ada
+    }
+}
 }

@@ -23,6 +23,11 @@ public class GameManager : MonoBehaviour
         if (itemTerkumpul >= totalItem)
             Menang();
     }
+    void OnGUI()
+    {
+        GUI.skin.label.fontSize = 22;
+        GUI.Label(new Rect(16, 16, 480, 36), "Item: " + itemTerkumpul + " / " + totalItem);
+    }
 
     public void Kalah()
     {

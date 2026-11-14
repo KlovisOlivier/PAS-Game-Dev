@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public float kecepatan = 5f;
     private Vector2 arahGerak;
     private Vector2 arahTerakhir = Vector2.down;
+    public Vector2 ArahHadap => arahTerakhir;
     private Rigidbody2D rb;
     private InputAction moveAction;
 
@@ -17,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Pengaturan Darah")]
     public int maxHP = 100;
     public int currentHP;
-    public Slider healthBar;
 
     void Start()
     {
@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
         moveAction = InputSystem.actions.FindAction("Move");
 
         currentHP = maxHP;
-        UpdateHealthBar();
     }
 
     void Update()
@@ -65,33 +64,6 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("MoveX", arahTerakhir.x);
         animator.SetFloat("MoveY", arahTerakhir.y);
         animator.SetFloat("Speed", arahGerak.sqrMagnitude);
-    }
-
-    // ===== Sistem Darah =====
-    public void TakeDamage(int damage)
-    {
-        currentHP -= damage;
-        UpdateHealthBar();
-
-        if (currentHP <= 0)
-        {
-            currentHP = 0;
-            Debug.Log("Player Mati!");
-
-            GameManager gameManager = FindAnyObjectByType<GameManager>();
-            if (gameManager != null)
-            {
-                gameManager.Kalah();
-            }
-        }
-    }
-
-    void UpdateHealthBar()
-    {
-        if (healthBar != null)
-        {
-            healthBar.value = (float)currentHP / maxHP;
-        }
     }
 
     // ===== Ambil Item/Koin =====
